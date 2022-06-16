@@ -1,9 +1,8 @@
-##GachonUnivDormitoryServer
-#####스프링으로 서버 구축
+#GachonUnivDormitoryServer
+######스프링으로 서버 구축
+---
 
-<div>
 `클래스 정리 및 매핑관계 정리`
-</div>
 
 <div>
      <img class="fit-picture"
