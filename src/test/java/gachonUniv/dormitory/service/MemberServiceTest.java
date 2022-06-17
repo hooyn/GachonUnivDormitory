@@ -18,12 +18,10 @@ class MemberServiceTest {
     @Test
     public void login_test() throws Exception {
         //given
-        String data = memberService.login("ownerchef2", "owner9809~");
+        CheckMemberResponseDto data = memberService.login("test", "test");
         //when
         System.out.println("------------------------------------------------");
-        System.out.println("------------------------------------------------");
-        System.out.println(data);
-        System.out.println("------------------------------------------------");
+        System.out.println(data.toString());
         System.out.println("------------------------------------------------");
         //then
     }
