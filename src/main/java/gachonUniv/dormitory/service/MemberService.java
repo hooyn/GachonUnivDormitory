@@ -23,10 +23,15 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     /**
-     * 로그인 (다른 서버 통신을 통해 가천대 학생인지 확인)
+     * 프로필 파일 생성 * 로컬에 프로필 저장을 위한 파일 생성
+     */
+
+
+    /**
+     * 학교 인증 & 데이터 Dto 저장
      */
     @Transactional
-    public CheckMemberResponseDto login(String userID, String userPW) throws ParseException {
+    public CheckMemberResponseDto certification_univ(String userID, String userPW) throws ParseException {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://smart.gachon.ac.kr:8080/WebJSON";
 
@@ -84,6 +89,17 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findMember(UUID uuid){ //-> Dto로 변환하기
         return memberRepository.findByUuid(uuid);
+    }
+
+    /**
+     * 아이디에 따른 회원 조회 * 조회를 통해서 '가천기숙사'에 인증된 사용자 인지 확인
+     *                     * 첫 사용자라면 학교 인증을 통해 인증 후 DB 등록
+     *                     * 학교 인증 한 사용자라면 닉네임 등록
+     *                     * 닉네임까지 등록한 사용자라면 DB에 ID와 PW 확인 후 바로 로그인
+     */
+    @Transactional(readOnly = true)
+    public Member findMember(String userID){
+        return memberRepository.findById(userID);
     }
 }
 

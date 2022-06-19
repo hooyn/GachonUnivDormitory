@@ -35,4 +35,11 @@ public class MemberRepository {
                 .where(member.id.eq(uuid))
                 .fetchOne();
     }
+
+    public Member findById(String userID){
+        return queryFactory
+                .selectFrom(member)
+                .where(member.userID.eq(userID))
+                .fetchOne();
+    }
 }

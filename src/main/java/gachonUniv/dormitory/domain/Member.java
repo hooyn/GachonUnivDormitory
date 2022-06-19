@@ -26,7 +26,7 @@ public class Member {
     private String nickname;
     private Boolean certified;
     private String token;
-    private String isAOS;
+    private Boolean isAOS;
 
     /**
      * [Mapping]
@@ -37,7 +37,7 @@ public class Member {
      * notificationList
      */
 
-    public Member(String userID, String userPW, String nickname, Boolean certified, String token, String isAOS) {
+    public Member(String userID, String userPW, String nickname, Boolean certified, String token, Boolean isAOS) {
         this.userID = userID;
         this.userPW = userPW;
         this.nickname = nickname;
