@@ -1,11 +1,14 @@
 package gachonUniv.dormitory.service;
 
 import gachonUniv.dormitory.domain.Member;
+import gachonUniv.dormitory.dto.CheckMemberResponseDto;
 import gachonUniv.dormitory.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @SpringBootTest
 @Transactional
@@ -37,6 +40,25 @@ class MemberServiceTest {
 
         Member unknown = memberService.findMember("unknown");
         System.out.println(unknown);
+        //then
+    }
+
+    @Test
+    public void 프로필_생성_로드() throws Exception {
+        //given
+        Member member = new Member("testID", "testPW", "test", true, "test-token", false);
+        memberRepository.save(member);
+
+        UUID id = member.getId();
+        System.out.println("profile_uuid = " + id);
+        //when
+        Boolean aBoolean = memberService.create_profile("image source", id);
+        System.out.println("profile_created = " + aBoolean);
+
+        String profile_info = memberService.read_profile(id);
+        System.out.println("------------profile_info--------------");
+        System.out.println(profile_info);
+        System.out.println("--------------------------------------");
         //then
     }
 }

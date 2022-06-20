@@ -1,4 +1,4 @@
-package gachonUniv.dormitory.service;
+package gachonUniv.dormitory.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
