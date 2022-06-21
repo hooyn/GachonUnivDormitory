@@ -29,18 +29,26 @@ public class MemberRepository {
                 .fetch();
     }
 
-    public Member findByUuid(UUID uuid){
+    public Member findByUuid(String uuid){
         return queryFactory
                 .select(member)
                 .from(member)
-                .where(member.id.eq(uuid))
+                .where(member.id.eq(UUID.fromString(uuid)))
                 .fetchOne();
     }
 
-    public Member findById(String userID){
+    public Member findByUserId(String userID){
         return queryFactory
                 .selectFrom(member)
                 .where(member.userID.eq(userID))
                 .fetchOne();
+    }
+
+    public void changeNickname(String uuid, String nickname){
+        long execute = queryFactory
+                .update(member)
+                .set(member.nickname, nickname)
+                .where(member.id.eq(UUID.fromString(uuid)))
+                .execute();
     }
 }
