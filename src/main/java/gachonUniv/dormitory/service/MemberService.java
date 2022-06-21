@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -21,60 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-
-    @Transactional
-    public UUID createMember(Member member){
-        return memberRepository.save(member);
-    }
-
-    /**
-     * 아이디에 따른 회원 조회 * 조회를 통해서 '가천기숙사'에 인증된 사용자 인지 확인
-     *                     * 첫 사용자라면 학교 인증을 통해 인증 후 DB 등록
-     *                     * 학교 인증 한 사용자라면 닉네임 등록
-     *                     * 닉네임까지 등록한 사용자라면 DB에 ID와 PW 확인 후 바로 로그인
-     */
-    @Transactional(readOnly = true)
-    public Member findMember(String userID){
-        return memberRepository.findById(userID);
-    }
-
-    /**
-     * 프로필 파일 생성 * 로컬에 프로필 저장을 위한 파일 생성
-     */
-    public Boolean createProfile(String profile_info, UUID id) throws IOException {
-        String filePath = "C:/Users/hooyn/intelliJ-workspace/dormitory_profile_info/"+id+".txt";
-
-        File file = new File(filePath);
-        file.createNewFile();
-
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file, false));
-        writer.write(profile_info);
-        writer.close();
-
-        return true;
-    }
-
-    /**
-     * 프로필 파일 읽기 * 없으면
-     */
-    public String read_profile(UUID id) throws IOException {
-        String filePath = "C:/Users/hooyn/intelliJ-workspace/dormitory_profile_info/"+id+".txt";
-        File file = new File(filePath);
-
-        String output = "";
-        if(file.exists()){
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                output += line;
-            }
-
-            reader.close();
-        }
-
-        return output;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 학교 인증 & 데이터 Dto 저장
@@ -125,11 +73,89 @@ public class MemberService {
     }
 
     /**
+     * 회원 생성
+     */
+    @Transactional
+    public UUID createMember(Member member){
+        return memberRepository.save(member);
+    }
+
+    /**
+     * UUID 회원 조회 *
+     */
+    @Transactional(readOnly = true)
+    public Member findMemberUUID(String uuid){
+        return memberRepository.findByUuid(uuid);
+    }
+
+    /**
+     * userID 회원 조회
+     */
+    @Transactional(readOnly = true)
+    public Member findMemberUserID(String userID){
+        return memberRepository.findByUserId(userID);
+    }
+
+    /**
      * 전체 회원 조회
      */
     @Transactional(readOnly = true)
     public List<Member> findMembers(){ //-> Dto로 변환하기
         return memberRepository.findAll();
+    }
+
+    /**
+     * 비밀번호 암호화
+     */
+    public String passwordEncode(String rawPW){
+        String encodedPW = passwordEncoder.encode(rawPW);
+        return encodedPW;
+    }
+
+    /**
+     * 비밀번호 확인
+     */
+    public boolean passwordDecode(String rawPW, String encodedPW){
+        boolean matches = passwordEncoder.matches(rawPW, encodedPW);
+        return matches;
+    }
+
+    /**
+     * 프로필 파일 생성 * 로컬에 프로필 저장을 위한 파일 생성
+     */
+    public Boolean createProfile(String profile_info, UUID id) throws IOException {
+        String filePath = "C:/Users/hooyn/intelliJ-workspace/dormitory_profile_info/"+id+".txt";
+
+        File file = new File(filePath);
+        file.createNewFile();
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file, false));
+        writer.write(profile_info);
+        writer.close();
+
+        return true;
+    }
+
+    /**
+     * 프로필 파일 읽기 * 없으면
+     */
+    public String readProfile(UUID id) throws IOException {
+        String filePath = "C:/Users/hooyn/intelliJ-workspace/dormitory_profile_info/"+id+".txt";
+        File file = new File(filePath);
+
+        String output = "";
+        if(file.exists()){
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                output += line;
+            }
+
+            reader.close();
+        }
+
+        return output;
     }
 }
 
