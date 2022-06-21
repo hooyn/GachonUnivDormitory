@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class CheckMemberResponseDto{
+public class CertifiedMemberDto {
     private String code;
     private String user_name;
     private String user_no;
@@ -13,7 +13,7 @@ public class CheckMemberResponseDto{
     private String user_tel;
     private String user_dept;
 
-    public CheckMemberResponseDto(String code, String user_name, String user_no, String user_email, String user_tel, String user_dept) {
+    public CertifiedMemberDto(String code, String user_name, String user_no, String user_email, String user_tel, String user_dept) {
         this.code = code;
         this.user_name = user_name;
         this.user_no = user_no;
