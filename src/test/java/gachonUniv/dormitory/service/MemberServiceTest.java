@@ -1,7 +1,7 @@
 package gachonUniv.dormitory.service;
 
 import gachonUniv.dormitory.domain.Member;
-import gachonUniv.dormitory.dto.CheckMemberResponseDto;
+import gachonUniv.dormitory.dto.CertifiedMemberDto;
 import gachonUniv.dormitory.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ class MemberServiceTest {
     @Test
     public void 학교인증() throws Exception {
         //given
-        CheckMemberResponseDto data = memberService.certification_univ("test", "test");
+        CertifiedMemberDto data = memberService.certification_univ("test", "test");
         //when
         System.out.println(data.toString());
         //then
@@ -52,7 +52,7 @@ class MemberServiceTest {
         UUID id = member.getId();
         System.out.println("profile_uuid = " + id);
         //when
-        Boolean aBoolean = memberService.create_profile("image source", id);
+        Boolean aBoolean = memberService.createProfile("image source", id);
         System.out.println("profile_created = " + aBoolean);
 
         String profile_info = memberService.read_profile(id);

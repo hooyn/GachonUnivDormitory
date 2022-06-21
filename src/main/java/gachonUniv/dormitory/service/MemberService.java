@@ -1,7 +1,7 @@
 package gachonUniv.dormitory.service;
 
 import gachonUniv.dormitory.domain.Member;
-import gachonUniv.dormitory.dto.CheckMemberResponseDto;
+import gachonUniv.dormitory.dto.CertifiedMemberDto;
 import gachonUniv.dormitory.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -22,6 +22,11 @@ import java.util.UUID;
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    @Transactional
+    public UUID createMember(Member member){
+        return memberRepository.save(member);
+    }
+
     /**
      * 아이디에 따른 회원 조회 * 조회를 통해서 '가천기숙사'에 인증된 사용자 인지 확인
      *                     * 첫 사용자라면 학교 인증을 통해 인증 후 DB 등록
@@ -36,7 +41,7 @@ public class MemberService {
     /**
      * 프로필 파일 생성 * 로컬에 프로필 저장을 위한 파일 생성
      */
-    public Boolean create_profile(String profile_info, UUID id) throws IOException {
+    public Boolean createProfile(String profile_info, UUID id) throws IOException {
         String filePath = "C:/Users/hooyn/intelliJ-workspace/dormitory_profile_info/"+id+".txt";
 
         File file = new File(filePath);
@@ -75,7 +80,7 @@ public class MemberService {
      * 학교 인증 & 데이터 Dto 저장
      */
     @Transactional
-    public CheckMemberResponseDto certification_univ(String userID, String userPW) throws ParseException {
+    public CertifiedMemberDto certification_univ(String userID, String userPW) throws ParseException {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://smart.gachon.ac.kr:8080/WebJSON";
 
@@ -113,9 +118,9 @@ public class MemberService {
             JSONObject clubList = clubListArr.getJSONObject(0);
             String user_dept = (String) clubList.get("clubNm");
 
-            return new CheckMemberResponseDto(code, user_name, user_no, user_email, user_tel, user_dept);
+            return new CertifiedMemberDto(code, user_name, user_no, user_email, user_tel, user_dept);
         } else {
-            return new CheckMemberResponseDto(code, null, null, null, null, null);
+            return new CertifiedMemberDto(code, null, null, null, null, null);
         }
     }
 
@@ -125,14 +130,6 @@ public class MemberService {
     @Transactional(readOnly = true)
     public List<Member> findMembers(){ //-> Dto로 변환하기
         return memberRepository.findAll();
-    }
-
-    /**
-     * UUID에 따른 회원 조회
-     */
-    @Transactional(readOnly = true)
-    public Member findMember(UUID uuid){ //-> Dto로 변환하기
-        return memberRepository.findByUuid(uuid);
     }
 }
 
