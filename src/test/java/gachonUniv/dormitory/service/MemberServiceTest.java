@@ -35,10 +35,10 @@ class MemberServiceTest {
         Member member = new Member("testID", "testPW", "test", true, "test-token", false);
         memberRepository.save(member);
         //when
-        Member findMember = memberService.findMember("testID");
+        Member findMember = memberService.findMemberUUID("testID");
         System.out.println(findMember.getId());
 
-        Member unknown = memberService.findMember("unknown");
+        Member unknown = memberService.findMemberUUID("unknown");
         System.out.println(unknown);
         //then
     }
@@ -55,7 +55,7 @@ class MemberServiceTest {
         Boolean aBoolean = memberService.createProfile("image source", id);
         System.out.println("profile_created = " + aBoolean);
 
-        String profile_info = memberService.read_profile(id);
+        String profile_info = memberService.readProfile(id);
         System.out.println("------------profile_info--------------");
         System.out.println(profile_info);
         System.out.println("--------------------------------------");
