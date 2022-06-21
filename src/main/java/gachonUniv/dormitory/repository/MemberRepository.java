@@ -18,8 +18,9 @@ public class MemberRepository {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
-    public void save(Member member){
+    public UUID save(Member member){
         em.persist(member);
+        return member.getId();
     }
 
     public List<Member> findAll(){
