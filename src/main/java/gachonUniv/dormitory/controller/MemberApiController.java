@@ -4,6 +4,7 @@ import gachonUniv.dormitory.request.LoginRequest;
 import gachonUniv.dormitory.response.Response;
 import gachonUniv.dormitory.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +39,7 @@ public class MemberApiController {
 
                     //학생 인증 미완료
                         //return 301
+
+        return new Response(true, HttpStatus.OK, null, "로그인");
     }
 }
