@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @AllArgsConstructor
 public class Response<T> {
     private boolean isSuccess;
-    private HttpStatus status;
+    private int statusCode;
     private T data;
     private String message;
 }
