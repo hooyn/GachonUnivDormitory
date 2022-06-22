@@ -137,7 +137,7 @@ public class MemberService {
     }
 
     /**
-     * 프로필 파일 읽기 * 없으면
+     * 프로필 파일 읽기 *
      */
     public String readProfile(UUID id) throws IOException {
         String filePath = "C:/Users/hooyn/intelliJ-workspace/dormitory_profile_info/"+id+".txt";
@@ -156,6 +156,14 @@ public class MemberService {
         }
 
         return output;
+    }
+
+    /**
+     * 닉네임 변경
+     */
+    @Transactional
+    public void changeNickname(String uuid, String nickname){
+        memberRepository.changeNickname(uuid, nickname);
     }
 }
 
