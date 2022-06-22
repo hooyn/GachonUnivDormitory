@@ -3,6 +3,7 @@ package gachonUniv.dormitory.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -12,7 +13,7 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
