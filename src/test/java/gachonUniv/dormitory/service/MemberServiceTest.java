@@ -35,10 +35,10 @@ class MemberServiceTest {
         Member member = new Member("testID", "testPW", "test", true, "test-token", false);
         memberRepository.save(member);
         //when
-        Member findMember = memberService.findMemberUUID("testID");
+        Member findMember = memberService.findMemberUuid("testID");
         System.out.println(findMember.getId());
 
-        Member unknown = memberService.findMemberUUID("unknown");
+        Member unknown = memberService.findMemberUuid("unknown");
         System.out.println(unknown);
         //then
     }

@@ -1,4 +1,4 @@
-package gachonUniv.dormitory.request;
+package gachonUniv.dormitory.request.memberReq;
 
 import lombok.Data;
 

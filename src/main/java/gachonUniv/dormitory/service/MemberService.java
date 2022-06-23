@@ -84,7 +84,7 @@ public class MemberService {
      * UUID 회원 조회 *
      */
     @Transactional(readOnly = true)
-    public Member findMemberUUID(String uuid){
+    public Member findMemberUuid(String uuid){
         return memberRepository.findByUuid(uuid);
     }
 

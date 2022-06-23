@@ -3,10 +3,10 @@ package gachonUniv.dormitory.controller;
 import gachonUniv.dormitory.domain.Member;
 import gachonUniv.dormitory.dto.CertifiedMemberDto;
 import gachonUniv.dormitory.dto.FindMemberDto;
-import gachonUniv.dormitory.request.FindMemberUUIDRequest;
-import gachonUniv.dormitory.request.LoginRequest;
-import gachonUniv.dormitory.request.UpdateNicknameRequest;
-import gachonUniv.dormitory.request.UpdateProfileRequest;
+import gachonUniv.dormitory.request.memberReq.FindMemberUUIDRequest;
+import gachonUniv.dormitory.request.memberReq.LoginRequest;
+import gachonUniv.dormitory.request.memberReq.UpdateNicknameRequest;
+import gachonUniv.dormitory.request.memberReq.UpdateProfileRequest;
 import gachonUniv.dormitory.response.Response;
 import gachonUniv.dormitory.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -93,7 +93,7 @@ public class MemberApiController {
 
     @PostMapping("/member")
     public Response findMember(@RequestBody FindMemberUUIDRequest request){
-        Member member = memberService.findMemberUUID(request.getUuid());
+        Member member = memberService.findMemberUuid(request.getUuid());
         FindMemberDto findMember = new FindMemberDto(member.getId(), member.getUserID(),
                 member.getUserPW(), member.getNickname(), member.getCertified(),
                 member.getToken(), member.getIsAOS());
