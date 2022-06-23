@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter @Setter
@@ -23,14 +23,15 @@ public class Post {
 
     private String title;
     private String content;
-
-    @Enumerated(EnumType.STRING)
     private String category;
 
     private int view_count;
     private int reply_count;
     private LocalDateTime create_time;
     private LocalDateTime update_time;
+
+    //파싱하는 방법
+    //LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
     private String hash_first;
     private String hash_second;
@@ -39,5 +40,19 @@ public class Post {
     public void setMember(Member member){
         this.member = member;
         member.getPosts().add(this);
+    }
+
+    public Post(Member member, String title, String content, String category, String hash_first, String hash_second, String hash_third) {
+        this.member = member;
+        this.title = title;
+        this.content = content;
+        this.category = category;
+        this.view_count = 0;
+        this.reply_count = 0;
+        this.create_time = LocalDateTime.now();
+        this.update_time = LocalDateTime.now();
+        this.hash_first = hash_first;
+        this.hash_second = hash_second;
+        this.hash_third = hash_third;
     }
 }
