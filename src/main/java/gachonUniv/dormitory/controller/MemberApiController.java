@@ -33,7 +33,7 @@ public class MemberApiController {
             boolean passwordCheck = memberService.passwordDecode(request.getUserPW(), member.getUserPW());
             if(passwordCheck){
                 if(member.getNickname()!=null){
-                    return new Response(true, HttpStatus.OK.value(), null, "로그인에 성공하셨습니다.");
+                    return new Response(true, HttpStatus.OK.value(), member.getId(), "로그인에 성공하셨습니다.");
                 } else {
                     return new Response(true, HttpStatus.CREATED.value(), member.getId(), "닉네임 설정이 필요합니다. [학교 인증 성공]");
                 }
