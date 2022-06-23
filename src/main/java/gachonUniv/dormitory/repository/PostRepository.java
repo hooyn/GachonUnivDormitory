@@ -2,7 +2,10 @@ package gachonUniv.dormitory.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gachonUniv.dormitory.domain.Post;
+import gachonUniv.dormitory.domain.QMember;
 import gachonUniv.dormitory.domain.QPost;
+import gachonUniv.dormitory.dto.FindPostDto;
+import gachonUniv.dormitory.dto.QFindPostDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +13,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
 
+import static gachonUniv.dormitory.domain.QMember.member;
 import static gachonUniv.dormitory.domain.QPost.post;
 
 @Repository
@@ -23,9 +27,24 @@ public class PostRepository {
         return post.getId();
     }
 
-    public List<Post> findAll(){
+    public List<FindPostDto> findAll(){
         return queryFactory
-                .selectFrom(post)
+                .select(new QFindPostDto(
+                        post.member.id.as("uuid"),
+                        post.member.nickname,
+                        post.id,
+                        post.title,
+                        post.content,
+                        post.category,
+                        post.view_count,
+                        post.reply_count,
+                        post.create_time,
+                        post.update_time,
+                        post.hash_first,
+                        post.hash_second,
+                        post.hash_third
+                ))
+                .from(post)
                 .fetch();
     }
 

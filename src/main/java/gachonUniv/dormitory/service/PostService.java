@@ -1,6 +1,7 @@
 package gachonUniv.dormitory.service;
 
 import gachonUniv.dormitory.domain.Post;
+import gachonUniv.dormitory.dto.FindPostDto;
 import gachonUniv.dormitory.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class PostService {
      * 게시글 삭제
      */
     @Transactional
-    public Long deletePost(Long id, String title, String content, String[] hash){
+    public Long deletePost(Long id){
         postRepository.delete(id);
         return id;
     }
@@ -51,7 +52,7 @@ public class PostService {
      * 게시글 전체 조회
      */
     @Transactional(readOnly = true)
-    public List<Post> findPosts(){
+    public List<FindPostDto> findPosts(){
         return postRepository.findAll();
     }
 
