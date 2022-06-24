@@ -5,6 +5,7 @@ import gachonUniv.dormitory.domain.Post;
 import gachonUniv.dormitory.dto.FindPostDto;
 import gachonUniv.dormitory.request.postReq.DeletePostRequest;
 import gachonUniv.dormitory.request.postReq.FindPostsRequest;
+import gachonUniv.dormitory.request.postReq.UpdatePostRequest;
 import gachonUniv.dormitory.request.postReq.WritePostRequest;
 import gachonUniv.dormitory.response.Response;
 import gachonUniv.dormitory.service.MemberService;
@@ -47,7 +48,17 @@ public class PostApiController {
         } else {
             return new Response(false, HttpStatus.BAD_REQUEST.value(), null, "게시글에 대한 권한이 없습니다.");
         }
+    }
 
-       
+    @PostMapping("/post_update")
+    public Response updatePost(@RequestBody UpdatePostRequest request){
+        boolean check = postService.checkPostAuth(request.getUuid(), request.getId());
+
+        if(check){
+            Long id = postService.updatePost(request.getId(), request.getTitle(), request.getContent(), request.getCategory(), request.getHash());
+            return new Response(true, HttpStatus.OK.value(), id, "게시글이 수정되었습니다.");
+        } else {
+            return new Response(false, HttpStatus.BAD_REQUEST.value(), null, "게시글에 대한 권한이 없습니다.");
+        }
     }
 }
