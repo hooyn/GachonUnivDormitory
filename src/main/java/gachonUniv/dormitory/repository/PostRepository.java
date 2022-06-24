@@ -62,12 +62,13 @@ public class PostRepository {
                 .fetch();
     }
 
-    public void update(Long id, String title, String content, String[] hash){
+    public void update(Long id, String title, String content, String category, String[] hash){
         long execute = queryFactory
                 .update(post)
                 .set(post.id, id)
                 .set(post.title, title)
                 .set(post.content, content)
+                .set(post.category, category)
                 .set(post.hash_first, hash[0])
                 .set(post.hash_second, hash[1])
                 .set(post.hash_third, hash[2])

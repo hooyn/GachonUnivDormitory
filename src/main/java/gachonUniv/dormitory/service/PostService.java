@@ -26,8 +26,8 @@ public class PostService {
      * 게시글 수정
      */
     @Transactional
-    public Long updatePost(Long id, String title, String content, String[] hash){
-        postRepository.update(id, title, content, hash);
+    public Long updatePost(Long id, String title, String content, String category, String[] hash){
+        postRepository.update(id, title, content, category, hash);
         return id;
     }
 
