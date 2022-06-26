@@ -37,6 +37,18 @@ public class PostApiController {
         List<FindPostDto> data = postService.findPosts();
         return new Response(true, HttpStatus.OK.value(), data, "전체 게시글이 조회되었습니다.");
     }
+
+    @PostMapping("/posts_uuid")
+    public Response findPostsByUuid(@RequestBody FindPostsRequest request){
+        List<FindPostDto> data = postService.findPostUuid(request.getUuid());
+        return new Response(true, HttpStatus.OK.value(), data, "사용자가 작성한 게시글이 조회되었습니다.");
+    }
+
+    @PostMapping("/posts_category")
+    public Response findPostByCategory(@RequestBody FindPostsRequest request){
+        List<FindPostDto> data = postService.findPostCategory(request.getCategory());
+        return new Response(true, HttpStatus.OK.value(), data, request.getCategory() + " 게시글이 조회되었습니다.");
+    }
     
     @PostMapping("/post_delete")
     public Response deletePost(@RequestBody DeletePostRequest request){

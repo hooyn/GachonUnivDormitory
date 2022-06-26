@@ -77,10 +77,47 @@ public class PostRepository {
                 .fetchOne();
     }
 
-    public List<Post> findByUuid(String uuid){
+    public List<FindPostDto> findByUuid(String uuid){
         return queryFactory
-                .selectFrom(post)
+                .select(new QFindPostDto(
+                        post.member.id.as("uuid"),
+                        post.member.nickname,
+                        post.id,
+                        post.title,
+                        post.content,
+                        post.category,
+                        post.view_count,
+                        post.reply_count,
+                        post.create_time,
+                        post.update_time,
+                        post.hash_first,
+                        post.hash_second,
+                        post.hash_third
+                ))
+                .from(post)
                 .where(post.member.id.eq(UUID.fromString(uuid)))
+                .fetch();
+    }
+
+    public List<FindPostDto> findByCategory(String category){
+        return queryFactory
+                .select(new QFindPostDto(
+                        post.member.id.as("uuid"),
+                        post.member.nickname,
+                        post.id,
+                        post.title,
+                        post.content,
+                        post.category,
+                        post.view_count,
+                        post.reply_count,
+                        post.create_time,
+                        post.update_time,
+                        post.hash_first,
+                        post.hash_second,
+                        post.hash_third
+                ))
+                .from(post)
+                .where(post.category.eq(category))
                 .fetch();
     }
 

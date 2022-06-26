@@ -62,8 +62,16 @@ public class PostService {
      * 게시글 UUID에 따른 조회
      */
     @Transactional(readOnly = true)
-    public List<Post> findPostUuid(String uuid){
+    public List<FindPostDto> findPostUuid(String uuid){
         return postRepository.findByUuid(uuid);
+    }
+
+    /**
+     * 게시글 Category에 따른 조회
+     */
+    @Transactional(readOnly = true)
+    public List<FindPostDto> findPostCategory(String category){
+        return postRepository.findByCategory(category);
     }
 
     /**
