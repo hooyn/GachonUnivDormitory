@@ -48,7 +48,29 @@ public class PostRepository {
                 .fetch();
     }
 
-    public Post findOne(Long id){
+    public FindPostDto findOne(Long id){
+        return queryFactory
+                .select(new QFindPostDto(
+                        post.member.id.as("uuid"),
+                        post.member.nickname,
+                        post.id,
+                        post.title,
+                        post.content,
+                        post.category,
+                        post.view_count,
+                        post.reply_count,
+                        post.create_time,
+                        post.update_time,
+                        post.hash_first,
+                        post.hash_second,
+                        post.hash_third
+                ))
+                .from(post)
+                .where(post.id.eq(id))
+                .fetchOne();
+    }
+
+    public Post findOneReturnPost(Long id){
         return queryFactory
                 .selectFrom(post)
                 .where(post.id.eq(id))

@@ -55,4 +55,8 @@ public class Post {
         this.hash_second = hash_second;
         this.hash_third = hash_third;
     }
+
+    public void addViewCount(){
+        this.view_count++;
+    }
 }
