@@ -43,10 +43,10 @@ public class PostService {
     /**
      * 게시글 확인
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public FindPostDto findPostId(Long id){
-        Post oneRaw = postRepository.findOneReturnPost(id);
-        oneRaw.addViewCount();
+        Post post = postRepository.findOneReturnPost(id);
+        post.setView_count(post.getView_count()+1);
         return postRepository.findOne(id);
     }
 

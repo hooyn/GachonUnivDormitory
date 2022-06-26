@@ -38,6 +38,13 @@ public class PostApiController {
         return new Response(true, HttpStatus.OK.value(), data, "전체 게시글이 조회되었습니다.");
     }
 
+    @PostMapping("/post")
+    public Response findPost(@RequestBody FindPostsRequest request){
+        FindPostDto data = postService.findPostId(request.getId());
+        return new Response(true, HttpStatus.OK.value(), data, request.getId() + "게시글이 조회되었습니다.");
+    }
+
+
     @PostMapping("/posts_uuid")
     public Response findPostsByUuid(@RequestBody FindPostsRequest request){
         List<FindPostDto> data = postService.findPostUuid(request.getUuid());

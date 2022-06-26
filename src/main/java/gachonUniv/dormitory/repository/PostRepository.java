@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static gachonUniv.dormitory.domain.QMember.member;
 import static gachonUniv.dormitory.domain.QPost.post;
 
 @Repository
@@ -124,13 +124,14 @@ public class PostRepository {
     public void update(Long id, String title, String content, String category, String[] hash){
         long execute = queryFactory
                 .update(post)
-                .set(post.id, id)
                 .set(post.title, title)
                 .set(post.content, content)
                 .set(post.category, category)
+                .set(post.update_time, LocalDateTime.now())
                 .set(post.hash_first, hash[0])
                 .set(post.hash_second, hash[1])
                 .set(post.hash_third, hash[2])
+                .where(post.id.eq(id))
                 .execute();
     }
 
