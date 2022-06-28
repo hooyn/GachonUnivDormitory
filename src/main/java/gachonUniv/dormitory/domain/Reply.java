@@ -39,10 +39,10 @@ public class Reply {
         member.getReplies().add(this);
     }
 
-    public Reply(String content, LocalDateTime create_time, LocalDateTime update_time, Member member, Post post) {
+    public Reply(String content, Member member, Post post) {
         this.content = content;
-        this.create_time = create_time;
-        this.update_time = update_time;
+        this.create_time = LocalDateTime.now();
+        this.update_time = LocalDateTime.now();
         this.member = member;
         this.post = post;
     }
