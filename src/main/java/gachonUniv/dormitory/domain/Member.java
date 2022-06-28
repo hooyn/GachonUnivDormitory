@@ -31,10 +31,13 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post")
+    private List<Reply> replies = new ArrayList<>();
+
     /**
      * [Mapping]
      * postList (o)
-     * replyList
+     * replyList (o)
      * reportList
      * feedbackList
      * notificationList
