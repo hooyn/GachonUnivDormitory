@@ -28,6 +28,7 @@ public class ReplyService {
     public Long createReply(String uuid, Long post_id, String content){
         Member member = memberRepository.findByUuid(uuid);
         Post post = postRepository.findOneReturnPost(post_id);
+        post.setReply_count(post.getReply_count()+1);
 
         Reply reply = new Reply(content, member, post);
         Long id = replyRepository.save(reply);
@@ -41,5 +42,21 @@ public class ReplyService {
     @Transactional(readOnly = true)
     public List<FindReplyDto> findReplyPostId(Long post_id){
         return replyRepository.findByPostId(post_id);
+    }
+
+    /**
+     * 댓글 수정
+     */
+    @Transactional
+    public Long updateReply(Long reply_id, String content){
+        return replyRepository.updateReply(reply_id, content);
+    }
+
+    /**
+     * 댓글 권한 확인
+     */
+    @Transactional(readOnly = true)
+    public boolean checkReplyAuth(String uuid, Long reply_id){
+        return replyRepository.checkReplyAuthorization(uuid, reply_id);
     }
 }

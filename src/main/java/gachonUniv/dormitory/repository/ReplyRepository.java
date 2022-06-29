@@ -1,6 +1,9 @@
 package gachonUniv.dormitory.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import gachonUniv.dormitory.domain.Post;
+import gachonUniv.dormitory.domain.QPost;
+import gachonUniv.dormitory.domain.QReply;
 import gachonUniv.dormitory.domain.Reply;
 import gachonUniv.dormitory.dto.FindReplyDto;
 import gachonUniv.dormitory.dto.QFindReplyDto;
@@ -9,7 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static gachonUniv.dormitory.domain.QReply.reply;
 
@@ -32,7 +37,7 @@ public class ReplyRepository {
                 .fetchOne();
     }
 
-    public List<FindReplyDto> findByPostId(Long post_id){
+    public List<FindReplyDto> findByPostId(Long id){
         return queryFactory
                 .select(new QFindReplyDto(
                         reply.member.nickname,
@@ -41,9 +46,27 @@ public class ReplyRepository {
                         reply.update_time
                 ))
                 .from(reply)
-                .where(reply.post.id.eq(post_id))
+                .where(reply.post.id.eq(id))
                 .fetch();
     }
 
+    public Long updateReply(Long id, String content){
+        Reply reply = em.find(Reply.class, id);
+        reply.setContent(content);
+        reply.setUpdate_time(LocalDateTime.now());
+        return reply.getId();
+    }
+
+    public boolean checkReplyAuthorization(String uuid, Long id){
+        queryFactory
+                .selectFrom(reply)
+                .where(reply.member.id.eq(UUID.fromString(uuid)).and(
+                        reply.id.eq(id)
+                ))
+                .fetchOne();
+
+        if(reply!=null) return true;
+        else return false;
+    }
 
 }
