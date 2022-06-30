@@ -40,6 +40,7 @@ public class ReplyRepository {
     public List<FindReplyDto> findByPostId(Long id, Integer page){
         return queryFactory
                 .select(new QFindReplyDto(
+                        reply.id,
                         reply.member.nickname,
                         reply.content,
                         reply.create_time,
@@ -60,14 +61,14 @@ public class ReplyRepository {
     }
 
     public boolean checkReplyAuthorization(String uuid, Long id){
-        queryFactory
-                .selectFrom(reply)
-                .where(reply.member.id.eq(UUID.fromString(uuid)).and(
-                        reply.id.eq(id)
+        Reply reply = queryFactory
+                .selectFrom(QReply.reply)
+                .where(QReply.reply.member.id.eq(UUID.fromString(uuid)).and(
+                        QReply.reply.id.eq(id)
                 ))
                 .fetchOne();
 
-        if(reply!=null) return true;
+        if(reply !=null) return true;
         else return false;
     }
 
