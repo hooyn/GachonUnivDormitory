@@ -2,6 +2,7 @@ package gachonUniv.dormitory.service;
 
 import gachonUniv.dormitory.domain.Post;
 import gachonUniv.dormitory.dto.FindPostDto;
+import gachonUniv.dormitory.dto.PostSearchCondition;
 import gachonUniv.dormitory.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,19 +60,19 @@ public class PostService {
     }
 
     /**
+     * 게시글 전체 검색
+     */
+    @Transactional(readOnly = true)
+    public List<FindPostDto> searchPosts(PostSearchCondition condition, Integer page){
+        return postRepository.search(condition, page);
+    }
+
+    /**
      * 게시글 UUID에 따른 조회
      */
     @Transactional(readOnly = true)
     public List<FindPostDto> findPostUuid(String uuid, Integer page){
         return postRepository.findByUuid(uuid, page);
-    }
-
-    /**
-     * 게시글 Category에 따른 조회
-     */
-    @Transactional(readOnly = true)
-    public List<FindPostDto> findPostCategory(String category){
-        return postRepository.findByCategory(category);
     }
 
     /**

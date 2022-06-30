@@ -3,6 +3,7 @@ package gachonUniv.dormitory.controller;
 import gachonUniv.dormitory.domain.Member;
 import gachonUniv.dormitory.domain.Post;
 import gachonUniv.dormitory.dto.FindPostDto;
+import gachonUniv.dormitory.dto.PostSearchCondition;
 import gachonUniv.dormitory.request.postReq.DeletePostRequest;
 import gachonUniv.dormitory.request.postReq.FindPostsRequest;
 import gachonUniv.dormitory.request.postReq.UpdatePostRequest;
@@ -21,11 +22,17 @@ import java.util.List;
 public class PostApiController {
     private final PostService postService;
     private final MemberService memberService;
-    
-    @GetMapping("/posts")
+
+    @GetMapping("/posts_all")
     public Response findPosts(@RequestParam("page") Integer page){
         List<FindPostDto> data = postService.findPosts(page);
         return new Response(true, HttpStatus.OK.value(), data, "전체 게시글이 조회되었습니다.");
+    }
+
+    @GetMapping("/posts")
+    public Response findPosts(@RequestBody PostSearchCondition condition, @RequestParam("page") Integer page){
+        List<FindPostDto> data = postService.searchPosts(condition, page);
+        return new Response(true, HttpStatus.OK.value(), data, "검색을 통한 게시글이 조회되었습니다.");
     }
 
     @PostMapping("/posts")
