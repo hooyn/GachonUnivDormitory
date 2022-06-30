@@ -82,4 +82,12 @@ public class PostService {
     public boolean checkPostAuth(String uuid, Long id){
         return postRepository.checkAuthorization(uuid, id);
     }
+
+    /**
+     * 게시글 존재하는지 확인
+     */
+    @Transactional(readOnly = true)
+    public boolean checkPost(Long id){
+        return postRepository.checkPost(id);
+    }
 }

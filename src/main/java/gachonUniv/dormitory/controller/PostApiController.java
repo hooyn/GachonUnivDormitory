@@ -53,8 +53,14 @@ public class PostApiController {
 
     @GetMapping("/post")
     public Response findPost(@RequestBody FindPostsRequest request){
-        FindPostDto data = postService.findPostId(request.getId());
-        return new Response(true, HttpStatus.OK.value(), data, request.getId() + "게시글이 조회되었습니다.");
+        boolean check = postService.checkPost(request.getId());
+
+        if(!check){
+            return new Response(false, HttpStatus.BAD_REQUEST.value(), null, "게시글이 존재하지 않습니다.");
+        } else {
+            FindPostDto data = postService.findPostId(request.getId());
+            return new Response(true, HttpStatus.OK.value(), data, request.getId() + "게시글이 조회되었습니다.");
+        }
     }
 
     @PutMapping("/post")

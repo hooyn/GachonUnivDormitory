@@ -168,6 +168,16 @@ public class PostRepository {
         else return false;
     }
 
+    public boolean checkPost(Long id){
+        Post post = queryFactory
+                .selectFrom(QPost.post)
+                .where(QPost.post.id.eq(id))
+                .fetchOne();
+
+        if(post!=null) return true;
+        else return false;
+    }
+
     public BooleanExpression categoryEq(String category){
         return StringUtils.hasText(category) ? post.category.eq(category) : null;
     }
