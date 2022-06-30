@@ -27,7 +27,7 @@ public class PostRepository {
         return post.getId();
     }
 
-    public List<FindPostDto> findAll(){
+    public List<FindPostDto> findAll(Integer page){
         return queryFactory
                 .select(new QFindPostDto(
                         post.member.id.as("uuid"),
@@ -45,6 +45,8 @@ public class PostRepository {
                         post.hash_third
                 ))
                 .from(post)
+                .offset(0+((page-1)*10))
+                .limit(10)
                 .fetch();
     }
 
@@ -77,7 +79,7 @@ public class PostRepository {
                 .fetchOne();
     }
 
-    public List<FindPostDto> findByUuid(String uuid){
+    public List<FindPostDto> findByUuid(String uuid, Integer page){
         return queryFactory
                 .select(new QFindPostDto(
                         post.member.id.as("uuid"),
@@ -96,6 +98,8 @@ public class PostRepository {
                 ))
                 .from(post)
                 .where(post.member.id.eq(UUID.fromString(uuid)))
+                .offset(0+((page-1)*10))
+                .limit(10)
                 .fetch();
     }
 

@@ -54,16 +54,16 @@ public class PostService {
      * 게시글 전체 조회
      */
     @Transactional(readOnly = true)
-    public List<FindPostDto> findPosts(){
-        return postRepository.findAll();
+    public List<FindPostDto> findPosts(Integer page){
+        return postRepository.findAll(page);
     }
 
     /**
      * 게시글 UUID에 따른 조회
      */
     @Transactional(readOnly = true)
-    public List<FindPostDto> findPostUuid(String uuid){
-        return postRepository.findByUuid(uuid);
+    public List<FindPostDto> findPostUuid(String uuid, Integer page){
+        return postRepository.findByUuid(uuid, page);
     }
 
     /**
