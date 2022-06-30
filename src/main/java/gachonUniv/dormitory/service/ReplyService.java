@@ -40,8 +40,8 @@ public class ReplyService {
      * 댓글 조회 (게시글 아이디에 따른)
      */
     @Transactional(readOnly = true)
-    public List<FindReplyDto> findReplyPostId(Long post_id){
-        return replyRepository.findByPostId(post_id);
+    public List<FindReplyDto> findReplyPostId(Long post_id, Integer page){
+        return replyRepository.findByPostId(post_id, page);
     }
 
     /**

@@ -37,7 +37,7 @@ public class ReplyRepository {
                 .fetchOne();
     }
 
-    public List<FindReplyDto> findByPostId(Long id){
+    public List<FindReplyDto> findByPostId(Long id, Integer page){
         return queryFactory
                 .select(new QFindReplyDto(
                         reply.member.nickname,
@@ -47,6 +47,8 @@ public class ReplyRepository {
                 ))
                 .from(reply)
                 .where(reply.post.id.eq(id))
+                .offset(0+((page-1)*5))
+                .limit(5)
                 .fetch();
     }
 

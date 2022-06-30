@@ -8,9 +8,7 @@ import gachonUniv.dormitory.response.Response;
 import gachonUniv.dormitory.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,13 @@ import java.util.List;
 public class ReplyApiController {
     private final ReplyService replyService;
 
+    @GetMapping("/reply")
+    public Response findReplies(@RequestBody FindReplyRequest request, @RequestParam("page") Integer page){
+        List<FindReplyDto> data = replyService.findReplyPostId(request.getPost_id(), page);
+
+        return new Response(true, HttpStatus.OK.value(), data, request.getPost_id()+" 게시글의 댓글이 조회되었습니다.");
+    }
+
     @PostMapping("/reply")
     public Response writeReply(@RequestBody WriteReplyRequest request){
         Long id = replyService.createReply(request.getUuid(), request.getPost_id(), request.getContent());
@@ -26,14 +31,7 @@ public class ReplyApiController {
         return new Response(true, HttpStatus.OK.value(), id, "댓글이 작성되었습니다.");
     }
 
-    @PostMapping("/replyies")
-    public Response findReplies(@RequestBody FindReplyRequest request){
-        List<FindReplyDto> data = replyService.findReplyPostId(request.getPost_id());
-
-        return new Response(true, HttpStatus.OK.value(), data, request.getPost_id()+" 게시글의 댓글이 조회되었습니다.");
-    }
-
-    @PostMapping("/reply_update")
+    @PutMapping("/reply")
     public Response updateReply(@RequestBody UpdateReplyRequest request){
         boolean check = replyService.checkReplyAuth(request.getUuid(), request.getReply_id());
 
