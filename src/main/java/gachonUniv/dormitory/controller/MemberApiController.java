@@ -80,14 +80,22 @@ public class MemberApiController {
     @PostMapping("/nickname")
     public Response updateNickname(@RequestBody UpdateNicknameRequest request){
         String nickname = request.getNickname();
-        /**
-         * 닉네임에 대한 제약조건
-         */
-
-        memberService.changeNickname(request.getUuid(), request.getNickname());
         Map<String, String> map = new HashMap<>();
         map.put("nickname", nickname);
-        return new Response(true, HttpStatus.OK.value(), request.getNickname(), "닉네임 정보가 업데이트 되었습니다.");
+
+        // 닉네임에 대한 제약조건
+        boolean check = memberService.checkNickname(nickname);
+        if(check){
+            boolean dupCheck = memberService.checkDuplicateNickname(nickname);
+            if(dupCheck){
+                memberService.changeNickname(request.getUuid(), request.getNickname());
+                return new Response(true, HttpStatus.OK.value(), map, "닉네임 정보가 업데이트 되었습니다.");
+            } else {
+                return new Response(false, HttpStatus.BAD_REQUEST.value(), map, "닉네임이 중복되었습니다.");
+            }
+        } else {
+            return new Response(false, HttpStatus.BAD_REQUEST.value(), map, "닉네임을 2글자 이상 8글자 이하로 설정해주세요.");
+        }
     }
 
     @PostMapping("/token")

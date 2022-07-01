@@ -167,6 +167,22 @@ public class MemberService {
     }
 
     /**
+     * 닉네임 제약조건 확인
+     */
+    @Transactional(readOnly = true)
+    public boolean checkNickname(String nickname){
+        return memberRepository.checkNickname(nickname);
+    }
+
+    /**
+     * 닉네임 중복 확인
+     */
+    @Transactional(readOnly = true)
+    public boolean checkDuplicateNickname(String nickname){
+        return memberRepository.checkDuplicateNickname(nickname);
+    }
+
+    /**
      * 토큰 저장
      */
     @Transactional

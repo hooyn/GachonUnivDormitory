@@ -59,4 +59,23 @@ public class MemberRepository {
                 .where(member.id.eq(UUID.fromString(uuid)))
                 .execute();
     }
+
+    public boolean checkNickname(String nickname) {
+        int length = nickname.length();
+
+        if(length<2 || length>8){
+            return false;
+        } else return true;
+    }
+
+    public boolean checkDuplicateNickname(String nickname) {
+        Member member = queryFactory
+                .selectFrom(QMember.member)
+                .where(QMember.member.nickname.eq(nickname))
+                .fetchOne();
+
+        if(member!=null){
+            return false;
+        } else return true;
+    }
 }
