@@ -165,6 +165,14 @@ public class MemberService {
     public void changeNickname(String uuid, String nickname){
         memberRepository.changeNickname(uuid, nickname);
     }
+
+    /**
+     * 토큰 저장
+     */
+    @Transactional
+    public void changeToken(String uuid, String token){
+        memberRepository.changeToken(uuid, token);
+    }
 }
 
 

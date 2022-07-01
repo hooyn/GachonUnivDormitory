@@ -51,4 +51,12 @@ public class MemberRepository {
                 .where(member.id.eq(UUID.fromString(uuid)))
                 .execute();
     }
+
+    public void changeToken(String uuid, String token){
+        long execute = queryFactory
+                .update(member)
+                .set(member.token, token)
+                .where(member.id.eq(UUID.fromString(uuid)))
+                .execute();
+    }
 }

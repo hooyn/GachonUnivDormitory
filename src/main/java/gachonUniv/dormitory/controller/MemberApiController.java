@@ -3,10 +3,7 @@ package gachonUniv.dormitory.controller;
 import gachonUniv.dormitory.domain.Member;
 import gachonUniv.dormitory.dto.CertifiedMemberDto;
 import gachonUniv.dormitory.dto.FindMemberDto;
-import gachonUniv.dormitory.request.memberReq.FindMemberUUIDRequest;
-import gachonUniv.dormitory.request.memberReq.LoginRequest;
-import gachonUniv.dormitory.request.memberReq.UpdateNicknameRequest;
-import gachonUniv.dormitory.request.memberReq.UpdateProfileRequest;
+import gachonUniv.dormitory.request.memberReq.*;
 import gachonUniv.dormitory.response.Response;
 import gachonUniv.dormitory.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -88,7 +85,19 @@ public class MemberApiController {
          */
 
         memberService.changeNickname(request.getUuid(), request.getNickname());
-        return new Response(true, HttpStatus.OK.value(), null, "닉네임 정보가 업데이트 되었습니다.");
+        Map<String, String> map = new HashMap<>();
+        map.put("nickname", nickname);
+        return new Response(true, HttpStatus.OK.value(), request.getNickname(), "닉네임 정보가 업데이트 되었습니다.");
+    }
+
+    @PostMapping("/token")
+    public Response updateToken(@RequestBody UpdateTokenRequest request){
+        String token = request.getToken();
+
+        memberService.changeToken(request.getUuid(), request.getToken());
+        Map<String, String> map = new HashMap<>();
+        map.put("token", token);
+        return new Response(true, HttpStatus.OK.value(), map, "토큰 정보가 업데이트 되었습니다.");
     }
 
     @PostMapping("/member")
