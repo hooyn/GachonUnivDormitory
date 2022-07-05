@@ -1,5 +1,6 @@
 package gachonUniv.dormitory.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ public class FindMemberDto {
     private String token;
     private Boolean isAOS;
 
+    @QueryProjection
     public FindMemberDto(UUID uuid, String userID, String userPw, String nickname, Boolean certified, String token, Boolean isAOS) {
         this.uuid = uuid;
         this.userID = userID;
