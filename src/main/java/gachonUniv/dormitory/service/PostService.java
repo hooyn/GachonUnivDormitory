@@ -90,4 +90,12 @@ public class PostService {
     public boolean checkPost(Long id){
         return postRepository.checkPost(id);
     }
+
+    /**
+     * 최근 게시글 조회
+     */
+    @Transactional(readOnly = true)
+    public List<FindPostDto> findPostRecently(Integer page){
+        return postRepository.findPostRecently(page);
+    }
 }

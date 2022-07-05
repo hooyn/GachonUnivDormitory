@@ -23,10 +23,17 @@ public class PostApiController {
     private final PostService postService;
     private final MemberService memberService;
 
-    @GetMapping("/posts_all")
+    @GetMapping("/home/posts/all")
     public Response findPosts(@RequestParam("page") Integer page){
         List<FindPostDto> data = postService.findPosts(page);
         return new Response(true, HttpStatus.OK.value(), data, "전체 게시글이 조회되었습니다.");
+    }
+
+    //home에서 사용하는 최근 게시글 조회
+    @GetMapping("/home/posts")
+    public Response findPostsRecently(@RequestParam("page") Integer page){
+        List<FindPostDto> data = postService.findPostRecently(page);
+        return new Response(true, HttpStatus.OK.value(), data, "최근 게시글이 조회되었습니다.");
     }
 
     @GetMapping("/posts")

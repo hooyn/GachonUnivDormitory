@@ -154,7 +154,29 @@ public class PostRepository {
                 .fetch();
     }
 
-
+    public List<FindPostDto> findPostRecently(Integer page){
+        return queryFactory
+                .select(new QFindPostDto(
+                        post.member.id.as("uuid"),
+                        post.member.nickname,
+                        post.id,
+                        post.title,
+                        post.content,
+                        post.category,
+                        post.view_count,
+                        post.reply_count,
+                        post.create_time,
+                        post.update_time,
+                        post.hash_first,
+                        post.hash_second,
+                        post.hash_third
+                ))
+                .from(post)
+                .orderBy(post.create_time.desc())
+                .offset(0+((page-1)*10))
+                .limit(10)
+                .fetch();
+    }
 
     public boolean checkAuthorization(String uuid, Long id){
         Post post = queryFactory
