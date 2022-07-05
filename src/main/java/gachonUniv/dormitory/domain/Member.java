@@ -34,6 +34,9 @@ public class Member {
     @OneToMany(mappedBy = "post")
     private List<Reply> replies = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Notification> notifications = new ArrayList<>();
+
     /**
      * [Mapping]
      * postList (o)

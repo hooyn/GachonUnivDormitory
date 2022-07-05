@@ -25,6 +25,9 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Reply> replies = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post")
+    private List<Notification> notifications = new ArrayList<>();
+
     private String title;
     private String content;
     private String category;
