@@ -76,6 +76,7 @@ public class PostRepository {
                         post.hash_third
                 ))
                 .from(post)
+                .orderBy(post.create_time.desc())
                 .offset(0+((page-1)*10))
                 .limit(10)
                 .fetch();
@@ -103,6 +104,7 @@ public class PostRepository {
                         categoryEq(condition.getCategory()),
                         contentEq(condition.getContent())
                 )
+                .orderBy(post.create_time.desc())
                 .offset(0+((page-1)*10))
                 .limit(10)
                 .fetch();
@@ -149,6 +151,7 @@ public class PostRepository {
                 ))
                 .from(post)
                 .where(post.member.id.eq(UUID.fromString(uuid)))
+                .orderBy(post.create_time.desc())
                 .offset(0+((page-1)*10))
                 .limit(10)
                 .fetch();
